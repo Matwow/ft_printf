@@ -6,36 +6,40 @@
 #    By: maroard <maroard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/02 21:13:43 by maroard           #+#    #+#              #
-#    Updated: 2025/11/24 11:31:34 by maroard          ###   ########.fr        #
+#    Updated: 2025/11/21 11:28:10 by maroard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-AR          = ar rcs
-NAME        = libft.a
-CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror
-RM          = rm -f
+AR      = ar rcs
+CC      = gcc
+CFLAGS  = -Wall -Wextra -Werror
 
-SRC_BONUS   = $(wildcard *bonus.c)
-SRC         = $(filter-out $(SRC_BONUS),  $(wildcard *.c))
+NAME    = libft.a
 
-OBJ         = $(SRC:.c=.o)
-OBJ_BONUS   = $(SRC_BONUS:.c=.o)
+SRC_B   = $(wildcard *_bonus.c)
+OBJ_B   = $(SRC_B:.c=.o)
+
+SRC     = $(wildcard *.c)
+SRC     := $(filter-out *$(SRC_B),$(SRC))
+OBJ     = $(SRC:.c=.o)
+
+ALL_OBJ = $(OBJ) $(OBJ_B)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(AR) $(NAME) $(OBJ)
+	$(AR) $@ $^
 
-bonus: $(OBJ_BONUS)
-	$(AR) $(NAME) $(OBJ_BONUS)
+bonus: $(OBJ_B)
+	$(AR) $(NAME) $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ) $(OBJ_BONUS)
+	rm -f $(ALL_OBJ)
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re bonus

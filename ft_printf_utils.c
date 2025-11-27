@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils1.c                                 :+:      :+:    :+:   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:04:53 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/24 18:14:12 by maroard          ###   ########.fr       */
+/*   Updated: 2025/11/26 14:46:11 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,6 @@ int	print_hex(unsigned long n, int uppercase)
 {
 	int	len;
 
-	if (uppercase < 0)
-		uppercase = 0;
-	else if (uppercase > 1)
-		uppercase = 1;
 	len = 0;
 	if (n >= 16)
 	{
@@ -75,9 +71,9 @@ int	print_hex(unsigned long n, int uppercase)
 	}
 	if (n <= 9)
 		ft_putchar(n + '0');
-	else if (n >= 10 && n <= 15 && uppercase == 1)
+	else if (n >= 10 && n <= 15 && uppercase >= 1)
 		ft_putchar(n + 'A' - 10);
-	else if (n >= 10 && n <= 15 && uppercase == 0)
+	else if (n >= 10 && n <= 15 && uppercase <= 0)
 		ft_putchar(n + 'a' - 10);
 	return (len + 1);
 }

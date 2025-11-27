@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:58:31 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/24 11:18:49 by maroard          ###   ########.fr       */
+/*   Updated: 2025/11/26 11:14:32 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ size_t	ft_strlen(const char *str);
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	dst_init_len;
+	size_t	d_len;
+	size_t	s_len;
 	size_t	i;
-	size_t	j;
 
-	dst_init_len = ft_strlen(dst);
+	d_len = 0;
+	while (d_len < size && dst[d_len])
+		d_len++;
+	s_len = ft_strlen(src);
+	if (d_len == size)
+		return (size + s_len);
 	i = 0;
-	j = 0;
-	while (dst[i] != '\0')
-		i++;
-	while (j < size - 1 && size > ft_strlen(dst))
+	while (src[i] && (d_len + i + 1) < size)
 	{
-		dst[i] = src[j];
+		dst[d_len + i] = src[i];
 		i++;
-		j++;
 	}
-	dst[i] = '\0';
-	if (size <= ft_strlen(dst))
-		return (ft_strlen(src) + size);
-	return (dst_init_len + ft_strlen(src));
+	if (d_len + i < size)
+		dst[d_len + i] = '\0';
+	return (d_len + s_len);
 }

@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:15:34 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/13 16:02:35 by maroard          ###   ########.fr       */
+/*   Updated: 2025/11/26 12:23:24 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 	if (nmemb == 0 || size == 0)
 		return (malloc(0));
+	if ((signed long)nmemb < 0 || (signed long)size < 0)
+		return (NULL);
 	mem_zone = malloc(nmemb * size);
 	if (!mem_zone)
 		return (NULL);
