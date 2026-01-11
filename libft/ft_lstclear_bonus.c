@@ -6,12 +6,11 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:13:32 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/21 11:56:24 by maroard          ###   ########.fr       */
+/*   Updated: 2025/12/09 11:33:32 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {

@@ -6,40 +6,42 @@
 #    By: maroard <maroard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/02 21:13:43 by maroard           #+#    #+#              #
-#    Updated: 2025/11/21 11:28:10 by maroard          ###   ########.fr        #
+#    Updated: 2026/01/02 18:21:54 by maroard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-AR      = ar rcs
-CC      = gcc
-CFLAGS  = -Wall -Wextra -Werror
+AR			= ar rcs
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror -I. -Ift_printf
+RM			= rm -f
+NAME		= libft.a
 
-NAME    = libft.a
+SRC_BONUS	= $(wildcard *_bonus.c)
+OBJ_BONUS	= $(SRC_B:.c=.o)
 
-SRC_B   = $(wildcard *_bonus.c)
-OBJ_B   = $(SRC_B:.c=.o)
+SRC_ALL		= $(wildcard *.c)
+SRC			= $(filter-out $(SRC_BONUS),$(SRC_ALL))
+OBJ			= $(SRC:.c=.o)
 
-SRC     = $(wildcard *.c)
-SRC     := $(filter-out *$(SRC_B),$(SRC))
-OBJ     = $(SRC:.c=.o)
+SRC_PRINTF	= $(wildcard ft_printf/*.c) $(wildcard ft_printf_fd/*.c)
+OBJ_PRINTF	= $(SRC_PRINTF:.c=.o)
 
-ALL_OBJ = $(OBJ) $(OBJ_B)
+ALL_OBJ		= $(OBJ) $(OBJ_BONUS) $(OBJ_PRINTF)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(AR) $@ $^
-
-bonus: $(OBJ_B)
-	$(AR) $(NAME) $^
+$(NAME): $(ALL_OBJ)
+	$(AR) $(NAME) $(ALL_OBJ)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(ALL_OBJ)
+	$(RM) $(OBJ) $(OBJ_BONUS) $(OBJ_PRINTF)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

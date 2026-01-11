@@ -6,30 +6,13 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 21:03:51 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/13 16:01:33 by maroard          ###   ########.fr       */
+/*   Updated: 2025/12/01 12:33:15 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(int c);
+long long	ft_atoll(const char *str);
 
 int	ft_atoi(const char *str)
 {
-	unsigned int	i;
-	int				sign;
-	int				result;
-
-	i = 0;
-	sign = 1;
-	result = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -sign;
-		i++;
-	}
-	while (ft_isdigit(str[i]))
-		result = result * 10 + (str[i++] - '0');
-	return (result * sign);
+	return ((int)ft_atoll(str));
 }

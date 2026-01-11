@@ -6,16 +6,11 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 19:14:09 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/21 11:56:54 by maroard          ###   ########.fr       */
+/*   Updated: 2025/12/09 11:34:04 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
-
-t_list	*ft_lstnew(void *content);
-void	ft_lstclear(t_list **lst, void (*del)(void *));
-void	ft_lstadd_back(t_list **lst, t_list *new);
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {

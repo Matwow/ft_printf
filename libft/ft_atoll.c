@@ -1,21 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 17:37:27 by maroard           #+#    #+#             */
-/*   Updated: 2025/12/09 11:33:44 by maroard          ###   ########.fr       */
+/*   Created: 2025/12/01 12:28:06 by maroard           #+#    #+#             */
+/*   Updated: 2025/12/01 14:09:32 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+int	ft_isdigit(int c);
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+long long	ft_atoll(const char *str)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	unsigned int	i;
+	int				sign;
+	long long		result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -sign;
+		i++;
+	}
+	while (ft_isdigit(str[i]))
+		result = result * 10 + (str[i++] - '0');
+	return (result * sign);
 }

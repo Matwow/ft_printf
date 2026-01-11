@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:05:14 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/26 13:58:05 by maroard          ###   ########.fr       */
+/*   Updated: 2025/12/17 18:44:49 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 size_t	ft_strlen(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
-static char	*empty_str()
+static char	*empty_str(void)
 {
 	char	*str;
 

@@ -6,14 +6,14 @@
 #    By: maroard <maroard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/24 18:14:48 by maroard           #+#    #+#              #
-#    Updated: 2025/11/24 18:32:18 by maroard          ###   ########.fr        #
+#    Updated: 2026/01/11 14:27:00 by maroard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 AR          = ar rcs
 NAME        = libftprintf.a
 CC          = gcc
-CFLAGS      = -Wall -Wextra #-Werror
+CFLAGS      = -Wall -Wextra -Werror
 RM          = rm -f
 
 LIBFT_DIR   = libft

@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 17:37:27 by maroard           #+#    #+#             */
-/*   Updated: 2025/12/09 11:33:44 by maroard          ###   ########.fr       */
+/*   Created: 2025/12/01 12:33:44 by maroard           #+#    #+#             */
+/*   Updated: 2025/12/01 12:34:22 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+long long	ft_atoll(const char *str);
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+long	ft_atol(const char *str)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	return ((long)ft_atoll(str));
 }
