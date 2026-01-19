@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:04:53 by maroard           #+#    #+#             */
-/*   Updated: 2026/01/02 18:20:47 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/19 19:18:06 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,40 @@
 
 int	print_str(char *str)
 {
+	int	len;
+
+	len = 0;
 	if (!str)
 	{
 		ft_putstr("(null)");
 		return (6);
 	}
-	ft_putstr(str);
-	return ((int)ft_strlen(str));
+	while (*str)
+	{
+		ft_putchar(*str++);
+		++len;
+	}
+	return (len);
+}
+
+int	print_str_n(char *str, int n)
+{
+	int		len;
+
+	len = 0;
+	if (!str)
+	{
+		if (n < (int)ft_strlen("(null)"))
+			return (0);
+		return (print_str("(null)"));
+	}
+	while (*str && n > 0)
+	{
+		ft_putchar(*str++);
+		--n;
+		++len;
+	}
+	return (len);
 }
 
 int	print_int(int n)
@@ -31,11 +58,7 @@ int	print_int(int n)
 	nb = n;
 	len = 0;
 	if (nb < 0)
-	{
-		ft_putchar('-');
 		nb = -nb;
-		len = 1;
-	}
 	if (nb >= 10)
 	{
 		len += print_int((int)(nb / 10));
@@ -59,7 +82,7 @@ int	print_unsigned_int(unsigned int n)
 	return (len + 1);
 }
 
-int	print_hex(unsigned long n, int uppercase)
+int	print_hex(unsigned long n, t_bool uppercase)
 {
 	int	len;
 
@@ -71,20 +94,9 @@ int	print_hex(unsigned long n, int uppercase)
 	}
 	if (n <= 9)
 		ft_putchar(n + '0');
-	else if (n >= 10 && n <= 15 && uppercase >= 1)
+	else if (n >= 10 && n <= 15 && uppercase)
 		ft_putchar(n + 'A' - 10);
-	else if (n >= 10 && n <= 15 && uppercase <= 0)
+	else if (n >= 10 && n <= 15 && !uppercase)
 		ft_putchar(n + 'a' - 10);
 	return (len + 1);
-}
-
-int	print_ptr(void *ptr)
-{
-	if (!ptr)
-	{
-		ft_putstr("(nil)");
-		return (5);
-	}
-	ft_putstr("0x");
-	return (print_hex((unsigned long)ptr, 0) + 2);
 }

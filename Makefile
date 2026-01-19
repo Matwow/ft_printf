@@ -6,7 +6,7 @@
 #    By: maroard <maroard@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/24 18:14:48 by maroard           #+#    #+#              #
-#    Updated: 2026/01/11 14:27:00 by maroard          ###   ########.fr        #
+#    Updated: 2026/01/16 18:45:43 by maroard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ $(NAME): $(OBJ)
 	mv libft.a $(NAME)
 	$(AR) $(NAME) $(OBJ)
 
+bonus: $(NAME)
+
 clean:
 	make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJ)
@@ -40,4 +42,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re

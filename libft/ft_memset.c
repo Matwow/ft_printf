@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 12:57:07 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/10 16:37:58 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/15 21:25:57 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	*ft_memset(void *pointer, int value, size_t count)
 	unsigned char	*p;
 	unsigned char	c;
 
-	c = (unsigned char)value;
 	p = (unsigned char *)pointer;
+	c = (unsigned char)value;
 	while (count--)
 		*p++ = c;
 	return (pointer);
