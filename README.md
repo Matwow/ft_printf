@@ -71,11 +71,11 @@ int  main(void)
 
 ```bash
 gcc main.c  libftprintf.a  -o  prog
-./prog
 ```
 
 ####  Output :
 ```bash
+./prog
 Bonjour !
 42 baguettes  s'il vous plaît !
 
