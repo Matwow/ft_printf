@@ -5,39 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/02 11:57:47 by maroard           #+#    #+#             */
-/*   Updated: 2026/01/16 19:26:58 by maroard          ###   ########.fr       */
+/*   Created: 2026/01/11 18:15:25 by maroard           #+#    #+#             */
+/*   Updated: 2026/01/22 16:11:00 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_ptr(void *ptr)
+void	init_flags(t_flags *f)
 {
-	if (!ptr)
-		return (print_str("(nil)"));
-	return (print_hex((unsigned long)ptr, FALSE));
+	f->minus = FALSE;
+	f->zero = FALSE;
+	f->dot = FALSE;
+	f->hash = FALSE;
+	f->space = FALSE;
+	f->plus = FALSE;
+	f->precision = 0;
+	f->width = 0;
+	f->padding = 0;
+	f->skip = 0;
 }
 
-int	print_double(double n)
+void	update_flags(t_flags *f, const char type)
 {
-	int	int_part;
-	int	decimal;
-	int	len;
+	if (type == '-')
+		f->minus = TRUE;
+	else if (type == '0')
+		f->zero = TRUE;
+	else if (type == '.')
+		f->dot = TRUE;
+	else if (type == '#')
+		f->hash = TRUE;
+	else if (type == ' ')
+		f->space = TRUE;
+	else if (type == '+')
+		f->plus = TRUE;
+}
 
-	len = 0;
-	if (n < 0)
+void	flags_priorities(t_flags *f, const char type)
+{
+	if (type != 'd' && type != 'i')
 	{
-		n = -n;
-		len += print_str("-");
+		f->plus = FALSE;
+		f->space = FALSE;
 	}
-	int_part = (int)n;
-	decimal = (int)((n - int_part) * 100);
-	len += print_int(int_part);
-	if (decimal < 10)
-		len += print_str(".0");
-	else
-		len += print_str(".");
-	len += print_int(decimal);
-	return (len);
+	if (type != 'x' && type != 'X')
+		f->hash = FALSE;
+	if (type != 'd' && type != 'i' && type != 'u'
+		&& type != 'x' && type != 'X' && type != 's')
+		f->dot = FALSE;
+	if (f->minus || f->dot
+		|| (type != 'd' && type != 'i'
+			&& type != 'u' && type != 'x' && type != 'X'))
+		f->zero = FALSE;
+	if (f->plus)
+		f->space = FALSE;
+}
+
+t_bool	is_flag(const char c)
+{
+	if (c == '-' || c == '0' || c == '.' || c == '#' || c == ' ' || c == '+')
+		return (TRUE);
+	return (FALSE);
 }

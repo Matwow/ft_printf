@@ -1,102 +1,122 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils_1.c                                :+:      :+:    :+:   */
+/*   ft_printf_bonus_utils_1.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 12:04:53 by maroard           #+#    #+#             */
-/*   Updated: 2026/01/19 19:18:06 by maroard          ###   ########.fr       */
+/*   Created: 2026/01/14 16:55:41 by maroard           #+#    #+#             */
+/*   Updated: 2026/01/19 19:17:15 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <limits.h>
+#include <stdarg.h>
 
-int	print_str(char *str)
+static void	update_widths(t_flags *f, t_bool precision_started, char digit)
 {
-	int	len;
-
-	len = 0;
-	if (!str)
+	if (!precision_started)
 	{
-		ft_putstr("(null)");
-		return (6);
+		if (f->width <= INT_MAX / 10)
+			f->width = f->width * 10 + digit - '0';
+		else
+			f->width = INT_MAX;
 	}
-	while (*str)
+	else
 	{
-		ft_putchar(*str++);
-		++len;
+		if (f->precision <= INT_MAX / 10)
+			f->precision = f->precision * 10 + digit - '0';
+		else
+			f->precision = INT_MAX;
 	}
-	return (len);
 }
 
-int	print_str_n(char *str, int n)
+char	parse_format(t_flags *f, const char *s)
 {
-	int		len;
+	t_bool	width_started;
+	t_bool	precision_started;
 
-	len = 0;
-	if (!str)
+	width_started = FALSE;
+	precision_started = FALSE;
+	while (1)
 	{
-		if (n < (int)ft_strlen("(null)"))
-			return (0);
-		return (print_str("(null)"));
+		if ((is_flag(s[f->skip]) && s[f->skip] != '0')
+			|| (s[f->skip] == '0' && !width_started))
+		{
+			update_flags(f, s[f->skip]);
+			if (f->dot)
+				precision_started = TRUE;
+		}
+		else if ((ft_isdigit(s[f->skip]) && s[f->skip] != '0')
+			|| (s[f->skip] == '0' && width_started))
+		{
+			width_started = TRUE;
+			update_widths(f, precision_started, s[f->skip]);
+		}
+		else
+			break ;
+		++f->skip;
 	}
-	while (*str && n > 0)
-	{
-		ft_putchar(*str++);
-		--n;
-		++len;
-	}
-	return (len);
+	return (s[f->skip]);
 }
 
-int	print_int(int n)
+void	read_argument(char type, t_arg *arg, va_list *arg_p)
 {
-	long long	nb;
-	int			len;
-
-	nb = n;
-	len = 0;
-	if (nb < 0)
-		nb = -nb;
-	if (nb >= 10)
-	{
-		len += print_int((int)(nb / 10));
-		nb = nb % 10;
-	}
-	ft_putchar(nb + '0');
-	return (len + 1);
+	if (type == 'c')
+		arg->c = va_arg(*arg_p, int);
+	else if (type == 's')
+		arg->s = va_arg(*arg_p, char *);
+	else if (type == 'p')
+		arg->p = va_arg(*arg_p, void *);
+	else if (type == 'd' || type == 'i')
+		arg->i = va_arg(*arg_p, int);
+	else if (type == 'u' || type == 'x' || type == 'X')
+		arg->u = va_arg(*arg_p, unsigned int);
+	else if (type == 'f')
+		arg->f = va_arg(*arg_p, double);
 }
 
-int	print_unsigned_int(unsigned int n)
+static void	digits_len(t_flags *f, t_arg *arg, const char type, t_len *len)
 {
-	int	len;
-
-	len = 0;
-	if (n >= 10)
-	{
-		len = print_unsigned_int(n / 10);
-		n = n % 10;
-	}
-	ft_putchar(n + '0');
-	return (len + 1);
+	if (type == 'c' || type == '%')
+		len->digits = 1;
+	else if (type == 's')
+		len->digits = string_len_with_precision(f->dot, f->precision, arg->s);
+	else if (type == 'p')
+		len->digits = ptr_len(arg->p);
+	else if (type == 'd' || type == 'i')
+		len->digits = int_len(arg->i);
+	else if (type == 'u')
+		len->digits = unsigned_int_len(arg->u);
+	else if (type == 'x' || type == 'X')
+		len->digits = hex_len(arg->u);
+	if (f->dot && f->precision == 0
+		&& (((type == 'd' || type == 'i') && (!arg->i || arg->i == 0))
+			|| ((type == 'u' || type == 'x' || type == 'X') && !arg->u)
+			|| (type == 's')))
+		len->digits = 0;
 }
 
-int	print_hex(unsigned long n, t_bool uppercase)
+void	compute_lengths(t_flags *f, t_arg *arg, const char type, t_len *len)
 {
-	int	len;
-
-	len = 0;
-	if (n >= 16)
-	{
-		len = print_hex(n / 16, uppercase);
-		n = n % 16;
-	}
-	if (n <= 9)
-		ft_putchar(n + '0');
-	else if (n >= 10 && n <= 15 && uppercase)
-		ft_putchar(n + 'A' - 10);
-	else if (n >= 10 && n <= 15 && !uppercase)
-		ft_putchar(n + 'a' - 10);
-	return (len + 1);
+	ft_memset(len, 0, sizeof(*len));
+	digits_len(f, arg, type, len);
+	if ((type == 'd' || type == 'i') && (arg->i < 0 || (f->plus || f->space)))
+		len->sign = 1;
+	if ((type == 'p' && arg->p != NULL)
+		|| ((type == 'x' || type == 'X') && (f->hash && arg->u != 0)))
+		len->prefix = 2;
+	else
+		len->prefix = 0;
+	if (type == 'c' || type == 's' || type == 'p' || type == '%')
+		len->precision_zeros = 0;
+	else if (f->precision > len->digits)
+		len->precision_zeros = f->precision - len->digits;
+	else
+		len->precision_zeros = 0;
+	len->padding = f->width - (len->sign + len->prefix
+			+ len->precision_zeros + len->digits);
+	if (len->padding < 0)
+		len->padding = 0;
 }

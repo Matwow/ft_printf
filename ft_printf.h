@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:36:09 by maroard           #+#    #+#             */
-/*   Updated: 2026/01/19 18:56:18 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:16:36 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ typedef struct s_len
 	int	padding;
 }		t_len;
 
-int		print_str(char *str);
-int		print_str_n(char *str, int n);
-int		print_int(int n);
-int		print_unsigned_int(unsigned int n);
-int		print_hex(unsigned long n, t_bool uppercase);
-int		print_ptr(void *ptr);
-int		print_double(double n);
+void	init_flags(t_flags *f);
+t_bool	is_flag(const char c);
+void	update_flags(t_flags *f, const char type);
+char	parse_format(t_flags *f, const char *s);
+void	flags_priorities(t_flags *f, const char type);
+void	read_argument(const char type, t_arg *arg, va_list *arg_p);
+void	compute_lengths(t_flags *f, t_arg *arg, const char type, t_len *len);
 
 int		string_len_with_precision(t_bool dot_active, int precision, char *str);
 int		int_len(int n);
@@ -69,18 +69,18 @@ int		unsigned_int_len(unsigned int n);
 int		hex_len(unsigned long n);
 int		ptr_len(void *ptr);
 
-void	init_flags(t_flags *f);
-void	update_flags(t_flags *f, const char type);
-t_bool	is_flag(const char c);
-char	parse_format(t_flags *f, const char *s);
-void	flags_priorities(t_flags *f, const char type);
-void	read_argument(char type, t_arg *arg, va_list *arg_p);
-void	compute_lengths(t_flags *f, t_arg *arg, const char type, t_len *len);
-
-int		print_padding(int padding_len, char padding_char);
-int		print_sign(char sign);
-int		print_prefix(char type);
+int		print_padding(int padding_len, const char padding_char);
+int		print_sign(const char sign);
+int		print_prefix(const char type);
 int		print_precision(int precision_zeros);
+
+int		print_str(char *str);
+int		print_str_n(char *str, int n);
+int		print_int(int n);
+int		print_unsigned_int(unsigned int n);
+int		print_hex(unsigned long n, t_bool uppercase);
+int		print_ptr(void *ptr);
+int		print_double(double n);
 
 int		ft_printf(const char *s, ...);
 
