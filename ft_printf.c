@@ -6,13 +6,12 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:35:42 by maroard           #+#    #+#             */
-/*   Updated: 2026/01/19 19:15:56 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/26 09:21:03 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdarg.h>
-#include <stdlib.h>
 
 static int	dispatcher(const char type, t_arg *arg, t_flags *f)
 {
@@ -66,30 +65,19 @@ static int	print_formatted(t_flags *f, t_len *len, const char type, t_arg *arg)
 	return (total_len);
 }
 
-static int	format_manager(t_flags **f, const char *s, va_list *arg_p)
+static int	format_manager(t_flags *f, const char *s, va_list *arg_p)
 {
 	char	type;
-	t_arg	*arg;
-	t_len	*format_lengths;
+	t_arg	arg;
+	t_len	format_lengths;
 	int		len;
 
-	*f = malloc(sizeof(t_flags));
-	if (!(*f))
-		return (-1);
-	init_flags((*f));
-	type = parse_format((*f), s);
-	flags_priorities((*f), type);
-	arg = malloc(sizeof(t_arg));
-	if (!arg)
-		return (-1);
-	read_argument(type, arg, arg_p);
-	format_lengths = malloc(sizeof(t_len));
-	if (!format_lengths)
-		return (free(arg), -1);
-	compute_lengths((*f), arg, type, format_lengths);
-	len = print_formatted((*f), format_lengths, type, arg);
-	free(arg);
-	free(format_lengths);
+	init_flags(f);
+	type = parse_format(f, s);
+	flags_priorities(f, type);
+	read_argument(type, &arg, arg_p);
+	compute_lengths(f, &arg, type, &format_lengths);
+	len = print_formatted(f, &format_lengths, type, &arg);
 	return (len);
 }
 
@@ -98,7 +86,7 @@ int	ft_printf(const char *s, ...)
 	va_list	arg_p;
 	int		i;
 	int		s_len;
-	t_flags	*f;
+	t_flags	f;
 
 	va_start(arg_p, s);
 	i = 0;
@@ -108,8 +96,7 @@ int	ft_printf(const char *s, ...)
 		if (s[i] == '%')
 		{
 			s_len += format_manager(&f, s + ++i, &arg_p);
-			i += f->skip + 1;
-			free(f);
+			i += f.skip + 1;
 		}
 		else
 		{

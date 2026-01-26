@@ -6,52 +6,53 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 12:10:23 by maroard           #+#    #+#             */
-/*   Updated: 2025/12/10 14:54:37 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/26 10:06:05 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <stdlib.h>
 
-static unsigned	int	count_words(char const *s, char c)
+static size_t	count_words(char const *s, char c)
 {
 	size_t	i;
-	size_t	is_word;
 	size_t	count;
+	t_bool	is_word;
 
 	i = 0;
-	is_word = 0;
 	count = 0;
+	is_word = FALSE;
 	while (s[i] != '\0')
 	{
-		if (s[i] != c && is_word == 0)
+		if (s[i] != c && !is_word)
 		{
-			is_word = 1;
-			count++;
+			is_word = TRUE;
+			++count;
 		}
 		else if (s[i] == c)
-			is_word = 0;
-		i++;
+			is_word = FALSE;
+		++i;
 	}
 	return (count);
 }
 
 static char	*create_string(char const *s, char c)
 {
-	size_t	i;
 	size_t	len;
 	char	*string;
+	size_t	i;
 
-	i = 0;
 	len = 0;
-	while (s[len] != '\0' && s[len] != c)
-		len++;
+	while (s[len] && s[len] != c)
+		++len;
 	string = malloc((len + 1) * sizeof(char));
 	if (!string)
 		return (NULL);
-	while (s[i] != '\0' && s[i] != c)
+	i = 0;
+	while (*s && s[i] != c)
 	{
 		string[i] = s[i];
-		i++;
+		++i;
 	}
 	string[i] = '\0';
 	return (string);
@@ -67,8 +68,8 @@ static void	*free_split(char **tab, size_t i)
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	i;
 	char	**tab;
+	size_t	i;
 
 	if (!s)
 		return (NULL);

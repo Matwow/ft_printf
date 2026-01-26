@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:36:09 by maroard           #+#    #+#             */
-/*   Updated: 2026/01/22 17:16:36 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/26 10:57:54 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 # include "./libft/libft.h"
 # include <stdarg.h>
-
-typedef enum s_bool
-{
-	FALSE,
-	TRUE
-}	t_bool;
 
 typedef struct s_flags
 {

@@ -6,7 +6,7 @@
 /*   By: maroard <maroard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 13:02:45 by maroard           #+#    #+#             */
-/*   Updated: 2025/11/13 16:15:13 by maroard          ###   ########.fr       */
+/*   Updated: 2026/01/26 09:54:20 by maroard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	unsigned int	i;
+	size_t	i;
 
 	if (!s)
 		return ;
 	i = 0;
 	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
+		write(fd, &s[i++], 1);
 }

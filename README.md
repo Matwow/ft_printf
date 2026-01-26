@@ -70,14 +70,14 @@ int  main(void)
 ####  Compilation :
 
 ```bash
-gcc main.c  libftprintf.a  -o  prog
+gcc main.c libftprintf.a  -o  prog
 ```
 
 ####  Output :
 ```bash
 ./prog
 Bonjour !
-42 baguettes  s'il vous plaît !
+42 baguettes s'il vous plaît !
 
 ```
 
@@ -119,9 +119,9 @@ L’implémentation est organisée en plusieurs étapes :
 1. Parsing du format:
 La chaîne de format est parcourue caractère par caractère.
 Lorsqu’un % est rencontré, un parseur dédié lit :
-	-- Les flags (-, 0, #, , +)
-	-- La largeur
-	-- La précision (.)
+	- Les flags (-, 0, #, , +)
+	- La largeur
+	- La précision (.)
 Il retourne le type de conversion (cspdiuxX%).
 Une structure t_flags stocke toutes les options de formatage.
 
@@ -131,11 +131,11 @@ Cela évite de relire plusieurs fois les arguments variadiques et rend va_copy i
 
 3. Calcul des longueurs
 Une structure t_len calcule :
-	-- Le nombre de caractères à afficher
-	-- La taille du signe
-	-- La taille du préfixe (ex : 0x)
-	-- Le nombre de zéros liés à la précision
-	-- Le padding (espaces ou zéros)
+	- Le nombre de caractères à afficher
+	- La taille du signe
+	- La taille du préfixe (ex : 0x)
+	- Le nombre de zéros liés à la précision
+	- Le padding (espaces ou zéros)
 Ces calculs sont faits avant l’affichage pour garantir un alignement correct.
 
 4. Affichage formaté
@@ -181,7 +181,9 @@ Elle permet également :
 ###  Références techniques
 
 man 3 printf
+
 Arguments variadiques (va_start, va_arg, va_end, va_copy): https://linux.die.net/man/3/va_start
+
 Unions: https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/les-unions/
 
 ---
